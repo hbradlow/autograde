@@ -1,4 +1,4 @@
-# Django settings for autograde_demo project.
+# Django settings for autograde_it project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -81,7 +81,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '*#xur8=zko$(+ifjkeyt7v$0bfj=29^ks29=d9-+x+%+*&amp;op9$'
+SECRET_KEY = 'z8+r^%z9w^$5q0(*m@mwinm%okic0mw%ag4u(1tzo#)4_iw5fk'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -100,10 +100,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'autograde_demo.urls'
+ROOT_URLCONF = 'autograde_it.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'autograde_demo.wsgi.application'
+WSGI_APPLICATION = 'autograde_it.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
