@@ -53,6 +53,7 @@ def makeModels(readme_sections, root_dir):
             for direc in os.walk(root_dir+'/'+line)
                 for f in direc[2]:
                     p = ProjectFile(file=file(f))
+                    p.save()
                     proj.framework_files.add(p)
     
     def makeTests():
@@ -60,11 +61,13 @@ def makeModels(readme_sections, root_dir):
             for direc in os.walk(root_dir+'/'+line):
                 for f in direc[2]:
                     p = TestCase(file=file(f))
+                    p.save()
                     proj.test_cases.add(p)
 
     def makeVerification():
         path = root_dir+'/'+readme_sections['verification']
         p = TestCase(file=file(path))
+        p.save()
         proj.test_cases.add(p)
 
     def makeStudent():
@@ -73,7 +76,9 @@ def makeModels(readme_sections, root_dir):
         for line in readme_sections['student']:
             match = re.search(regex_patt, line)
             if match:
-                proj.student_files.add(KVPair(key=current_folder, value=match.groups()[0]))
+                p = KVPair(key=current_folder, value=match.groups()[0])
+                p.save()
+                proj.student_files.add(p)
             else:
                 current_folder = line
 
@@ -82,6 +87,7 @@ def makeModels(readme_sections, root_dir):
     makeTests()
     makeVerification()
     makeStudent()
+    proj.save()
     return True
 
         
