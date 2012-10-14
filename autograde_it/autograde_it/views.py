@@ -7,5 +7,9 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+from autograde.models import *
+from autograde.forms import *
+
 def home(request):
-    return render_to_response("upload_form.html",context_instance=RequestContext(request))
+    form = ProjectForm()
+    return render_to_response("upload_form.html",{"form":form},context_instance=RequestContext(request))
