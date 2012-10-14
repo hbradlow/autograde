@@ -5,6 +5,11 @@ def parse(directory):
     """
     Parses the README file and creates the required models
     """
+    def flushBuffer(buf):
+        if buf == '':
+            pass
+        results[current_header] = buf
+        section_buffer = []
     header_patt = r'-{5}-*([a-zA-Z]+)'
     results = {}
     sections = ['description', 'dependencies', 'tests', 'verfication', 'student']
@@ -12,7 +17,7 @@ def parse(directory):
         section_buffer = []
         current_header = ''
         for line in readme:
-            match = re.match(header_patt)
+            match = re.match(header_patt,line)
             if match:
                 flushBuffer(section_buffer)
                 current_header = match.groups()[0].lower()
@@ -21,11 +26,6 @@ def parse(directory):
             else:
                 section_buffer.append(line)
     return makeModels(results, directory)
-    def flushBuffer(buf):
-        if buf == '':
-            pass
-        results[current_header] = buf
-        section_buffer = []
 
 def makeModels(readme_sections, root_dir):
     proj = Project()
@@ -50,7 +50,7 @@ def makeModels(readme_sections, root_dir):
 
     def makeDependencies():
         for line in readme_sections['dependencies']:
-            for direc in os.walk(root_dir+'/'+line)
+            for direc in os.walk(root_dir+'/'+line):
                 for f in direc[2]:
                     p = ProjectFile(file=file(f))
                     p.save()
