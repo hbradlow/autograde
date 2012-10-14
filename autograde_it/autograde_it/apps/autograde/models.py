@@ -10,5 +10,12 @@ class ProjectFile(models.Model):
     is_student_viewable = models.BooleanField(default=False)
 class Project(models.Model):
     instructor = models.ForeignKey(User)
-    test_cases = models.ManyToManyField(TestCase)
-    student_files = models.ManyToManyField(ProjectFile)
+    test_cases = models.ManyToManyField(TestCase,blank=True)
+    student_files = models.ManyToManyField(ProjectFile,blank=True)
+class Result(models.Model):
+    text = models.TextField()
+class Submission(models.Model):
+    project = models.ForeignKey(Project)
+    student = models.ForeignKey(User)
+    files = models.ManyToManyField(ProjectFile,blank=True)
+    results = models.ForeignKey(Result)
