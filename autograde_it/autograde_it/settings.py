@@ -127,6 +127,7 @@ INSTALLED_APPS = (
 
     #external
     'django_extensions',
+    'south',
 
     #project
     'autograde',

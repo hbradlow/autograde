@@ -34,3 +34,4 @@ media
 whoosh_index
 site_media
 local_settings.py
+*.swp
