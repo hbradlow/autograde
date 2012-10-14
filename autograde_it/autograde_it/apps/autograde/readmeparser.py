@@ -1,5 +1,6 @@
 import re, os
-import models
+from autograde.models import *
+
 
 def parse(directory):
     """
@@ -12,7 +13,7 @@ def parse(directory):
         section_buffer = []
     header_patt = r'-{5}-*([a-zA-Z]+)'
     results = {}
-    sections = ['description', 'dependencies', 'tests', 'verfication', 'student']
+    sections = ['description', 'dependencies', 'tests', 'verification', 'student']
     with open(directory+'/README.txt') as readme:
         section_buffer = []
         current_header = ''
@@ -22,14 +23,21 @@ def parse(directory):
                 flushBuffer(section_buffer)
                 current_header = match.groups()[0].lower()
                 if current_header not in sections:
-                    raise ValueError('Invalid header name')
+                    raise ValueError('Invalid header name: ' + current_header)
             else:
                 section_buffer.append(line)
     return makeModels(results, directory)
 
 def makeModels(readme_sections, root_dir):
     proj = Project()
+    proj.save()
     def makeDescription():
+        def flushSubsection(buf):
+            if buf == '':
+                pass
+            results[current_header] = buf
+            for k,v in results.items():
+                proj.settings.add(KVPair(key=k, value=v))
         results = {}
         subsection_patt = r'^\s*#(.*)'
         subsection_buffer = ''
@@ -41,12 +49,6 @@ def makeModels(readme_sections, root_dir):
                 current_header = match.groups()[0].lower()
             else:
                 subsection_buffer += line + '\n'
-        def flushSubsection(buf):
-            if buf == '':
-                pass
-            results[current_header] = buf
-        for k,v in results.items():
-            proj.settings.add(KVPair(key=k, value=v))
 
     def makeDependencies():
         for line in readme_sections['dependencies']:
