@@ -10,4 +10,4 @@ class ProjectForm(forms.ModelForm):
         extract_from_zip(self.cleaned_data["zip_file"])
     class Meta:
         model = Project
-        exclude = ("instructor","test_cases","student_files",)
+        fields = tuple()
