@@ -11,14 +11,14 @@ class Migration(SchemaMigration):
         # Adding model 'TestCase'
         db.create_table('autograde_testcase', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+            ('my_file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
         ))
         db.send_create_signal('autograde', ['TestCase'])
 
         # Adding model 'ProjectFile'
         db.create_table('autograde_projectfile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+            ('my_file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
             ('is_student_viewable', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('autograde', ['ProjectFile'])

@@ -9,12 +9,7 @@ Kristin Stephens
 Dawn Song
 #MAX_SUBMISSIONS
 5
-
 ----------dependencies
-framework_code
-test_code
-student_grades
-random_other_stuff	
 ----------tests
 test_code
 ----------verification

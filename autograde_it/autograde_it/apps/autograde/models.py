@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class TestCase(models.Model):
-    file = models.FileField(upload_to="tests")
+    my_file = models.FileField(upload_to="tests")
 
 class ProjectFile(models.Model):
-    file = models.FileField(upload_to="project_files")
+    my_file = models.FileField(upload_to="project_files")
     is_student_viewable = models.BooleanField(default=False)
 
 class KVPair(models.Model):
@@ -23,8 +23,10 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     verifier = models.ManyToManyField(ProjectFile,related_name="verifier")
     settings = models.ManyToManyField(KVPair,related_name="settings")
+
 class Result(models.Model):
     text = models.TextField()
+
 class Submission(models.Model):
     project = models.ForeignKey(Project)
     student = models.ForeignKey(User)
