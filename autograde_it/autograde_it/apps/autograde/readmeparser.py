@@ -1,6 +1,7 @@
 import re, os
 from autograde.models import *
 from django.core.files import File
+from zipfile import ZipFile
 
 
 def parse(directory):
@@ -14,10 +15,10 @@ def parse(directory):
     results = {} # maps section names to a list containing the content from the section
     sections = ['description', 'dependencies', 'tests', 'verification', 'student']
     with open(directory+'/README.txt') as readme:
-        print "parsing"
         section_buffer = []
         current_header = re.match(header_patt, readme.readline()).groups()[0]
         for line in readme:
+            line = line.split('\n')[0]
             match = re.match(header_patt, line)
             if match:
                 section_buffer, results = flushBuffer(section_buffer, results)
@@ -32,7 +33,10 @@ def parse(directory):
 def makeModels(readme_sections, root_dir):
     proj = Project()
     proj.save()
+    files = []
+    print readme_sections, root_dir
     def makeDescription():
+        files = []
         results = {}
         subsection_patt = r'^\s*#(.*)'
         subsection_buffer = []
@@ -58,15 +62,20 @@ def makeModels(readme_sections, root_dir):
             proj.settings.add(p)
 
     def makeDependencies():
+        files = []
         for line in readme_sections['dependencies']:
+            line = line.split('\n')[0]
             for direc in os.walk(root_dir+'/'+line):
                 for f in direc[2]:
-                    p = ProjectFile(file=file(f))
+                    p = ProjectFile(my_file=File(open(f, 'rw')))
                     p.save()
                     proj.framework_files.add(p)
+                    files.append(root_dir+'/'+line)
+        return files
     
     def makeTests():
         # only working for single level directories
+        files = []
         for line in readme_sections['tests']:
             path = root_dir+'/'+line.split('\n')[0]
             for direc in os.walk(path):
@@ -75,18 +84,24 @@ def makeModels(readme_sections, root_dir):
                         p = TestCase(my_file=File(g))
                         p.save()
                         proj.test_cases.add(p)
+                        files.append(path+'/'+f)
+        return files
 
     def makeVerification():
+        files = []
         path = root_dir+'/'+readme_sections['verification'][0].split('\n')[0]
         with open(path) as f:
             p = ProjectFile(my_file=File(f))
             p.save()
             proj.verifer.add(p)
+            files.append(path)
+        return files
 
     def makeStudent():
         regex_patt = r'/(".*)'
         current_folder = ''
         for line in readme_sections['student']:
+            line = line.split('\n')[0]
             match = re.search(regex_patt, line)
             if match:
                 p = KVPair(key=current_folder, value=match.groups()[0])
@@ -96,11 +111,17 @@ def makeModels(readme_sections, root_dir):
                 current_folder = line
 
     makeDescription()
-    makeDependencies()
-    makeTests()
-    makeVerification()
+    #files.exetend(makeDependencies())
     makeStudent()
+    files.extend(makeTests())
+    #files.extend(makeVerification())
+    zipped = ZipFile('zipped_files.zip', mode='w')
+    for f in files:
+        zipped.write(f)
+    zipped.close()
+    proj.zipped = File(file('zipped_files.zip'))
     proj.save()
+    #print 'proj.zipped', proj.zipped
     return True
 
         

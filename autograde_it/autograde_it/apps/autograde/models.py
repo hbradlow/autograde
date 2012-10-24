@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 class TestCase(models.Model):
     my_file = models.FileField(upload_to="tests")
+    #grade = models.FloatField(default=0)
+    #weight = models.FloatField(default=0)
 
 class ProjectFile(models.Model):
     my_file = models.FileField(upload_to="project_files")
