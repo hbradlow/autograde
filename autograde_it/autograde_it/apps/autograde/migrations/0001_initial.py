@@ -203,9 +203,9 @@ class Migration(SchemaMigration):
         },
         'autograde.projectfile': {
             'Meta': {'object_name': 'ProjectFile'},
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_student_viewable': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
+            'is_student_viewable': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'my_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'})
         },
         'autograde.result': {
             'Meta': {'object_name': 'Result'},
@@ -222,8 +222,8 @@ class Migration(SchemaMigration):
         },
         'autograde.testcase': {
             'Meta': {'object_name': 'TestCase'},
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'my_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'})
         },
         'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},

@@ -1,6 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Instructor: {{object.instructor.get_full_name}}</h3>
-    <a href="#">Framework Code</a>
+    <h3>Instructor: Henry Bradlow</h3>
+    <br />
+    <h4>Tests</h4>
+    {% for test_case in object.test_cases.all %}
+        <div class="row-fluid">
+            <div class="span12">
+                {{test_case}}
+            </div>
+        </div>
+    {% endfor %}
+    <br />
+    <h4>Framework</h4>
+    <div class="row-fluid">
+        <a href="#">Zipped Files</a>
+    </div>
+    <br />
+    <h4>Settings</h4>
+    {% for settings in object.settings.all %}
+        <div class="row-fluid">
+            <div class="span3">
+                {{settings.key}}
+            </div>
+            <div class="span9">
+                {{settings.value}}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

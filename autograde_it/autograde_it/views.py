@@ -16,4 +16,6 @@ def home(request):
         form = ProjectForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            project = form.instance
+            #return HttpResponseRedirect(project.get_absolute_url())
     return render_to_response("upload_form.html",{"form":form},context_instance=RequestContext(request))
