@@ -121,6 +121,8 @@ def makeModels(readme_sections, root_dir):
     zipped.close()
     proj.zipped = File(file('zipped_files.zip'))
     proj.save()
+    from os import unlink
+    os.unlink('zipped_files.zip')
     #print 'proj.zipped', proj.zipped
     return True
 
