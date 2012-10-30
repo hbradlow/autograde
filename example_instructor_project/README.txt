@@ -1,4 +1,8 @@
 ----------description
+#COURSENUMBER
+CS194
+#COURSENAME
+Educational Technology
 #DESCRIPTION
 Example project specification for the autograder. 
 The description can be multiple lines
@@ -10,6 +14,7 @@ Dawn Song
 #MAX_SUBMISSIONS
 5
 ----------dependencies
+project_code
 ----------tests
 test_code
 ----------verification

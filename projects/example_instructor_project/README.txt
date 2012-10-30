@@ -1,4 +1,8 @@
 ----------description
+#COURSENUMBER
+CS194
+#COURSENAME
+Educational Technology
 #DESCRIPTION
 Example project specification for the autograder. 
 The description can be multiple lines
