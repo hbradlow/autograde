@@ -69,8 +69,8 @@ def makeModels(readme_sections, root_dir):
             for direc in os.walk(root_dir+'/'+line):
                 for f in direc[2]:
                     p = ProjectFile(my_file=File(open(f, 'rw')))
+                    p.project = proj
                     p.save()
-                    proj.framework_files.add(p)
                     files.append(root_dir+'/'+line)
         return files
     
@@ -83,19 +83,9 @@ def makeModels(readme_sections, root_dir):
                 for f in direc[2]:
                     with open(path+'/'+f, 'rw') as g:
                         p = TestCase(my_file=File(g))
+                        p.project = proj
                         p.save()
-                        proj.test_cases.add(p)
                         files.append(path+'/'+f)
-        return files
-
-    def makeVerification():
-        files = []
-        path = root_dir+'/'+readme_sections['verification'][0].split('\n')[0]
-        with open(path) as f:
-            p = ProjectFile(my_file=File(f))
-            p.save()
-            proj.verifer.add(p)
-            files.append(path)
         return files
 
     def makeStudent():
