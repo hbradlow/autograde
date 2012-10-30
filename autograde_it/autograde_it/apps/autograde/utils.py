@@ -11,7 +11,7 @@ def extract_from_zip(file):
     z = zipfile.ZipFile(file)
     try:
         name = ".".join(file.name.split(".")[0:-1])
-        z.extractall(settings.AUTOGRADE_PROJECT_UPLOAD_PATH)
+        z.extractall(path=settings.AUTOGRADE_PROJECT_UPLOAD_PATH)
         return parse(os.path.join(settings.AUTOGRADE_PROJECT_UPLOAD_PATH,name))
     except AttributeError:
         z.extractall("projects")
