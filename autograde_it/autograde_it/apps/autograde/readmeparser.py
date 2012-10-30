@@ -27,7 +27,8 @@ def parse(directory):
             else:
                 section_buffer.append(line)
     section_buffer, results = flushBuffer(section_buffer, results)
-    return makeModels(results, directory)
+    p = makeModels(results,directory)
+    return p
 
 def makeModels(readme_sections, root_dir):
     proj = Project()
@@ -101,6 +102,4 @@ def makeModels(readme_sections, root_dir):
     makeVerification()
     makeStudent()
     proj.save()
-    return True
-
-        
+    return proj

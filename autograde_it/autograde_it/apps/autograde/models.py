@@ -1,18 +1,25 @@
 from django.db import models
+from django.db.models import permalink
 
 from django.contrib.auth.models import User
 # Create your models here.
 
 class TestCase(models.Model):
     my_file = models.FileField(upload_to="tests")
+    def __unicode__(self):
+        return str(self.my_file)
 
 class ProjectFile(models.Model):
     my_file = models.FileField(upload_to="project_files")
     is_student_viewable = models.BooleanField(default=False)
+    def __unicode__(self):
+        return str(self.my_file)
 
 class KVPair(models.Model):
     key = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
+    def __unicode__(self):
+        return self.key + ": " + self.value
 
 class Project(models.Model):
     instructor = models.ManyToManyField(User)
@@ -23,6 +30,9 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     verifier = models.ManyToManyField(ProjectFile,related_name="verifier")
     settings = models.ManyToManyField(KVPair,related_name="settings")
+    @permalink
+    def get_absolute_url(self):
+        return ("project_detail",[self.pk])
 
 class Result(models.Model):
     text = models.TextField()

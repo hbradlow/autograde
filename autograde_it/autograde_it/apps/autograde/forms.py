@@ -7,7 +7,7 @@ from autograde.utils import *
 class ProjectForm(forms.ModelForm):
     zip_file = forms.FileField()
     def save(self,*args,**kwargs):
-        extract_from_zip(self.cleaned_data["zip_file"])
+        self.instance = extract_from_zip(self.cleaned_data["zip_file"])
     class Meta:
         model = Project
         fields = tuple()
