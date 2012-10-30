@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     #external
     'django_extensions',
     'south',
+    'tastypie',
 
     #project
     'autograde',

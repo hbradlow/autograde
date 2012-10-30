@@ -14,6 +14,7 @@ Dawn Song
 #MAX_SUBMISSIONS
 5
 ----------dependencies
+project_code
 ----------tests
 test_code
 ----------verification
