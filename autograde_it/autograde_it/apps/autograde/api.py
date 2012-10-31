@@ -14,8 +14,8 @@ class TestResultResource(ModelResource):
         resource_name = 'test_result'
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        list_allowed_methods = ['get', 'post']
-        detail_allowed_methods = ['get', 'post']
+        list_allowed_methods = ['post']
+        detail_allowed_methods = ['post']
 
 class UserResource(ModelResource):
     class Meta:

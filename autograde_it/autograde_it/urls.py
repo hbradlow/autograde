@@ -12,11 +12,8 @@ urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
                 'document_root': settings.MEDIA_ROOT,
     }),
-    url(r'^project/(?P<pk>[\w\._-]+)$', ProjectDetailView.as_view(), name='project_detail'),
-    # url(r'^autograde_it/', include('autograde_it.foo.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^project/(?P<pk>[\w\._-]+)$', ProjectDetailView.as_view(), name='project_detail'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autograde/', include(autograde.urls)),
