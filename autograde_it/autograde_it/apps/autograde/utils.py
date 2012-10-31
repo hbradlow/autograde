@@ -8,6 +8,7 @@ def extract_from_zip(file):
     import zipfile
     from readmeparser import parse
     from django.conf import settings
+    print file
     z = zipfile.ZipFile(file)
     try:
         name = ".".join(file.name.split(".")[0:-1])

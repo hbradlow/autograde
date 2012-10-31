@@ -5,9 +5,11 @@ from autograde.models import *
 from autograde.utils import *
 
 class ProjectForm(forms.ModelForm):
-    zip_file = forms.FileField()
+    test_case = forms.FileField()
     def save(self,*args,**kwargs):
-        self.instance = extract_from_zip(self.cleaned_data["zip_file"])
+        super(ProjectForm,self).save(*args,**kwargs)
+        p = self.instance
+        test_case = TestCase.objects.create(project = p, file = self.cleaned_data['test_case'])
     class Meta:
         model = Project
-        fields = tuple()
+        fields = ("title",)

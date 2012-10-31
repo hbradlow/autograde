@@ -16,7 +16,6 @@ class KVPair(models.Model):
 
 class Project(models.Model):
     instructor = models.ManyToManyField(User)
-    student_files = models.ManyToManyField(KVPair,related_name="student_files")
     zipped = models.FileField(upload_to="project_files")
     title = models.CharField(max_length=100)
     settings = models.ManyToManyField(KVPair,related_name="settings")
@@ -32,10 +31,8 @@ class ProjectFile(models.Model):
         return str(self.my_file)
 
 class TestCase(models.Model):
-    my_file = models.FileField(upload_to="tests")
+    file = models.FileField(upload_to="tests")
     project = models.ForeignKey(Project)
-    #grade = models.FloatField(default=0)
-    #weight = models.FloatField(default=0)
     def __unicode__(self):
         return str(self.my_file)
 
