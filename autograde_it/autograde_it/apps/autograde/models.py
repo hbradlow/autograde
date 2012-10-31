@@ -24,17 +24,17 @@ class Project(models.Model):
         return ("project_detail",[self.pk])
 
 class ProjectFile(models.Model):
-    my_file = models.FileField(upload_to="project_files")
+    file = models.FileField(upload_to="project_files")
     is_student_viewable = models.BooleanField(default=False)
     project = models.ForeignKey(Project)
     def __unicode__(self):
-        return str(self.my_file)
+        return str(self.file)
 
 class TestCase(models.Model):
     file = models.FileField(upload_to="tests")
     project = models.ForeignKey(Project)
     def __unicode__(self):
-        return str(self.my_file)
+        return str(self.file)
 
 class Result(models.Model):
     text = models.TextField()
