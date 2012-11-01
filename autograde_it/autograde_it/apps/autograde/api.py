@@ -21,6 +21,9 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
+        filtering = {
+            'username':['exact'],
+        }
 
 class TestCaseResource(ModelResource):
     project = fields.ForeignKey("autograde.api.ProjectResource","project")
