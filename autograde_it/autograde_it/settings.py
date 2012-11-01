@@ -128,7 +128,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'south',
     'tastypie',
-    'uploadify',
 
     #project
     'autograde',
