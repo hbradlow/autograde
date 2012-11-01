@@ -17,5 +17,4 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^autograde/', include(autograde.urls)),
-    url(r'^uploadify/', include('uploadify.urls')),
 )
