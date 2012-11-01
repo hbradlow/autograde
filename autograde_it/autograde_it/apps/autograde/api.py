@@ -24,6 +24,7 @@ class UserResource(ModelResource):
         filtering = {
             'username':['exact'],
         }
+        fields = ("username",)
 
 class TestCaseResource(ModelResource):
     project = fields.ForeignKey("autograde.api.ProjectResource","project")
