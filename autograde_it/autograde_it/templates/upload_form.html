@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_style %}
-    <link href="{% static "jquery_file_upload/css/jquery.fileupload-ui.css" %}" rel="stylesheet">
-{% endblock %}
-{% block extra_script %}
-    <script src="{% static "jquery_file_upload/js/vendor/jquery.ui.widget.js" %}"></script>
-    <script src="{% static "jquery_file_upload/js/jquery.iframe-transport.js" %}"></script>
-    <script src="{% static "jquery_file_upload/js/jquery.fileupload.js" %}"></script>
-{% endblock %}
+{% block head_title %}Create Project{% endblock %}
 
 {% block content %}
+    <h3>Create a project</h3>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p}}
-        <input id="fileupload" type="file" name="picture" data-url="" multiple />
+        <p>
+            <label>Project Files</label>
+            <input id="fileupload" type="file" name="project_files" data-url="" multiple />
+        </p>
+        <p>
+            <label>Test Cases</label>
+            <input id="fileupload" type="file" name="test_cases" data-url="" multiple />
+        </p>
         <input type="submit" class="btn"></input>
     </form>
 {% endblock %}

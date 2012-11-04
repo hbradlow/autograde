@@ -1,0 +1,22 @@
+{% extends "autograde/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+    {% comment %}
+        <link rel="stylesheet" href="{% static "code_mirror/codemirror.css" %}">
+        <script src="{% static "code_mirror/codemirror.js" %}"></script>
+    {% endcomment %}
+{% endblock %}
+
+{% block content %}
+    <h3>Test Case: {{object}}</h3>
+    <p>
+        Project: <a href="{{object.project.get_absolute_url}}">{{object.project}}</a>
+    </p>
+    <p>
+        File: <a href="{{object.file.url}}">{{object.file}}</a>
+    </p>
+    <p>
+    <a href="{% url testcase_edit object.pk %}">Edit</a>
+    </p>
+{% endblock %}

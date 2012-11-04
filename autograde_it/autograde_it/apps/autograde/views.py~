@@ -22,8 +22,6 @@ def testcase_edit(request,pk):
     tc = get_object_or_404(TestCase,pk=pk)
     form = TestCaseForm(instance=tc)
     if request.method=="POST":
-        print request.FILES
-        print request.POST
         form = TestCaseForm(request.POST,request.FILES,instance=tc)
         if form.is_valid():
             form.save()

@@ -1,0 +1,12 @@
+{% extends "autograde/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+    <link rel="stylesheet" href="{% static "code_mirror/codemirror.css" %}">
+    <script src="{% static "code_mirror/codemirror.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h3>Test Case: {{test_case}}</h3>
+
+{% endblock %}

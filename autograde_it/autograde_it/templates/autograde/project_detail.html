@@ -1,31 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Instructor: Henry Bradlow</h3>
+    <h3>Project: {{project}}</h3>
     <br />
-    <h4>Tests</h4>
-    {% for test_case in object.test_cases.all %}
+    <h4>Project Files</h4>
+    {% for file in project.projectfile_set.all %}
         <div class="row-fluid">
             <div class="span12">
-                {{test_case}}
+                <a href="{{file.get_absolute_url}}">{{file}}</a>
             </div>
         </div>
     {% endfor %}
-    <br />
-    <h4>Framework</h4>
-    <div class="row-fluid">
-        <a href="#">Zipped Files</a>
-    </div>
-    <br />
-    <h4>Settings</h4>
-    {% for settings in object.settings.all %}
+    <h4>Tests</h4>
+    {% for test_case in project.testcase_set.all %}
         <div class="row-fluid">
-            <div class="span3">
-                {{settings.key}}
-            </div>
-            <div class="span9">
-                {{settings.value}}
+            <div class="span12">
+                <a href="{{test_case.get_absolute_url}}">{{test_case}}</a>
             </div>
         </div>
     {% endfor %}
+    <br />
 {% endblock %}
