@@ -21,4 +21,6 @@ urlpatterns = patterns('',
 
     url(r'^projectfile/(?P<pk>[\w\._-]+)$', DetailView.as_view(model=ProjectFile), name='projectfile_detail'),
     url(r'^projectfile/(?P<pk>[\w\._-]+)/edit$', projectfile_edit, name='projectfile_edit'),
+
+    url(r'^testresult/(?P<pk>[\w\._-]+)$', DetailView.as_view(model=TestResult), name='testresult_detail'),
 )

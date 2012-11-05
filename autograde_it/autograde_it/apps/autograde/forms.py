@@ -26,7 +26,7 @@ class ProjectCreateForm(forms.ModelForm):
 class TestCaseForm(forms.ModelForm):
     class Meta:
         model = TestCase
-        fields = ("file",)
+        fields = ("file","expected_results",)
 class ProjectFileForm(forms.ModelForm):
     class Meta:
         model = ProjectFile

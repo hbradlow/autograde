@@ -29,6 +29,7 @@ class ProjectFile(models.Model):
 class TestCase(models.Model):
     project = models.ForeignKey(Project)
     file = models.FileField(upload_to="tests")
+    expected_results = models.TextField(null=True)
     def __unicode__(self):
         return str(self.file)
     @permalink
@@ -39,5 +40,28 @@ class TestResult(models.Model):
     test_case = models.ForeignKey(TestCase)
     results = models.TextField()
     user = models.ForeignKey(User)
+
+    passed = models.BooleanField(default=False)
+    was_checked = models.BooleanField(default=False)
+    
+    def check(self):
+        """
+            Check this test result against its test case.
+        """
+        if self.results == self.test_case.expected_results:
+            self.passed = True
+        else:
+            self.passed = False
+        self.was_checked = True
+        self.save()
+
     def __unicode__(self):
-        print str(self.user) + ": " + self.results
+        return str(self.user) + ": " + str(self.passed)
+    @permalink
+    def get_absolute_url(self):
+        return ("testresult_detail",[self.pk])
+
+def check_testresult(sender, instance, created, **kwargs):
+    if created:
+        instance.check()
+models.signals.post_save.connect(check_testresult, sender=TestResult)
