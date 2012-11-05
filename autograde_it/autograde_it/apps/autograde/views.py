@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from autograde.models import *
 from autograde.forms import *
 
-def upload_form(request):
+def project_create(request):
     form = ProjectCreateForm()
     if request.method=="POST":
         form = ProjectCreateForm(request.POST,request.FILES)
@@ -16,7 +16,7 @@ def upload_form(request):
             form.save()
             project = form.instance
             return HttpResponseRedirect(project.get_absolute_url())
-    return render_to_response("upload_form.html",{"form":form},context_instance=RequestContext(request))
+    return render_to_response("autograde/project_create.html",{"form":form},context_instance=RequestContext(request))
 
 def testcase_edit(request,pk):
     tc = get_object_or_404(TestCase,pk=pk)

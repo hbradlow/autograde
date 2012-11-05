@@ -1,0 +1,12 @@
+{% extends "autograde/base.html" %}
+
+{% block head_title %}Projects{% endblock %}
+
+{% block content %}
+    <a href="{% url project_create %}"><h3>Create Project</h3></a>
+    <hr />
+    <h3>Current Projects</h3>
+    {% for project in object_list %}
+        <a href="{{project.get_absolute_url}}">{{project}}</a>
+    {% endfor %}
+{% endblock %}

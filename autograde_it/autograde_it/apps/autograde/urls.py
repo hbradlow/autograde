@@ -11,10 +11,12 @@ api.register(TestCaseResource())
 api.register(TestResultResource())
 api.register(UserResource())
 
-urlpatterns = patterns('',
+urlpatterns = patterns('autograde.views',
     (r'^api/', include(api.urls)),
+    url(r'^$', ListView.as_view(model=Project,template_name="autograde/index.html"), name='autograde_home'),
 
     url(r'^project/(?P<pk>[\w\._-]+)$', DetailView.as_view(model=Project), name='project_detail'),
+    url(r'^create/project/$', "project_create", name='project_create'),
 
     url(r'^testcase/(?P<pk>[\w\._-]+)$', DetailView.as_view(model=TestCase), name='testcase_detail'),
     url(r'^testcase/(?P<pk>[\w\._-]+)/edit$', testcase_edit, name='testcase_edit'),
