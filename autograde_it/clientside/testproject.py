@@ -75,7 +75,7 @@ class Tester:
         response_json = loads(response)
         print response_json
         print "Downloading test cases..."
-        tests = response_json['objects'][1]['tests']
+        tests = response_json['objects'][0]['tests']
         print tests
         for case in tests:
             case_id  = case['id']
