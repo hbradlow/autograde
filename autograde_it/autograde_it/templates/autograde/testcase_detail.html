@@ -11,6 +11,7 @@
 {% block content %}
     <p>
         <a href="{% url testcase_edit object.pk %}">Edit</a>
+        <a href="{% url testcase_delete object.pk %}">Delete</a>
     </p>
     <hr />
     <h3>Test Case: {{object}}</h3>

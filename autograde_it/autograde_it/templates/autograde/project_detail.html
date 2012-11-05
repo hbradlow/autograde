@@ -8,16 +8,23 @@
         <div class="row-fluid">
             <div class="span12">
                 <a href="{{file.get_absolute_url}}">{{file}}</a>
+                <a href="{% url projectfile_delete file.pk %}">Delete</a>
             </div>
         </div>
     {% endfor %}
+    <a href="{% url projectfile_create project.pk %}">Add Project File</a>
+    <br />
+    <br />
+    <br />
     <h4>Tests</h4>
     {% for test_case in project.testcase_set.all %}
         <div class="row-fluid">
             <div class="span12">
                 <a href="{{test_case.get_absolute_url}}">{{test_case}}</a>
+                <a href="{% url testcase_delete test_case.pk %}">Delete</a>
             </div>
         </div>
     {% endfor %}
+    <a href="{% url testcase_create project.pk %}">Add Test Case</a>
     <br />
 {% endblock %}
