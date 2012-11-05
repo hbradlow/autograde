@@ -24,6 +24,7 @@ class Project(models.Model):
             file_name = os.path.join(settings.AUTOGRADE_ZIP_TMP,str(uuid.uuid4()))
             f = open(file_name,"w")
             f.write(pf.file.read())
+            f.close()
             z.write(file_name,pf.file.name)
             os.remove(file_name)
         z.write("autograde_it/clientside/testproject.py","testproject.py")
