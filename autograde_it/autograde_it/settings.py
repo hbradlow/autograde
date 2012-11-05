@@ -164,3 +164,4 @@ LOGGING = {
 
 #autograde
 AUTOGRADE_PROJECT_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'projects/')
+AUTOGRADE_ZIP_TMP = MEDIA_ROOT

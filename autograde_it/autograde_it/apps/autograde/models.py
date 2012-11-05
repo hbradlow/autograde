@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models import permalink
+from zipfile import ZipFile
 
 from django.contrib.auth.models import User
-# Create your models here.
 
 from tastypie.models import create_api_key
 models.signals.post_save.connect(create_api_key, sender=User)
@@ -14,6 +14,20 @@ class Project(models.Model):
         return self.projectmeta
     def __unicode__(self):
         return self.title
+    def zipfile(self):
+        import os
+        import uuid
+        from django.conf import settings
+        name = "/tmp/test.zip"
+        z = ZipFile(name,"w")
+        for pf in self.projectfile_set.all():
+            file_name = os.path.join(settings.AUTOGRADE_ZIP_TMP,str(uuid.uuid4()))
+            f = open(file_name,"w")
+            f.write(pf.file.read())
+            z.write(file_name,pf.file.name)
+            os.remove(file_name)
+        z.close()
+        return name
     @permalink
     def get_absolute_url(self):
         return ("project_detail",[self.pk])

@@ -2,6 +2,7 @@
 
 {% block content %}
     <h3>Project: {{project}}</h3>
+    <a href="{% url get_project_zip project.pk %}">Get Files</a>
     <br />
     <h4>Project Files</h4>
     {% for file in project.projectfile_set.all %}
