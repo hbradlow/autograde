@@ -9,4 +9,3 @@ from django.contrib.auth.decorators import login_required
 
 from autograde.models import *
 from autograde.forms import *
-

@@ -1,0 +1,11 @@
+{% extends "autograde/base.html" %}
+
+{% block head_title %}Users{% endblock %}
+
+{% block content %}
+    {% for user in object_list %}
+        <div>
+            {{user}}: ApiKey = {{user.api_key.key}}
+        </div>
+    {% endfor %}
+{% endblock %}
