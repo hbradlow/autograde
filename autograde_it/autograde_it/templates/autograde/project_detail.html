@@ -2,8 +2,8 @@
 
 {% block content %}
     <h3>Project: {{project}}</h3>
-    <a href="{% url get_project_zip project.pk %}">Get Files</a>
-    <br />
+    <a href="{% url get_project_zip project.pk %}" class="btn btn-success" >Get Zipped Files</a>
+    <hr />
     <h4>Project Files</h4>
     {% for file in project.projectfile_set.all %}
         <div class="row-fluid">
@@ -14,9 +14,7 @@
         </div>
     {% endfor %}
     <a href="{% url projectfile_create project.pk %}">Add Project File</a>
-    <br />
-    <br />
-    <br />
+    <hr />
     <h4>Tests</h4>
     {% for test_case in project.testcase_set.all %}
         <div class="row-fluid">
@@ -27,7 +25,7 @@
         </div>
     {% endfor %}
     <a href="{% url testcase_create project.pk %}">Add Test Case</a>
-    <br />
+    <hr />
     <h4>Meta Data</h4>
     {% with project.get_meta as object %}
         {% include "autograde/projectmeta.html" %}
