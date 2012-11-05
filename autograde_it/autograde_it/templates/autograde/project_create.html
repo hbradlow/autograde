@@ -1,0 +1,13 @@
+{% extends "autograde/base.html" %}
+{% load static %}
+
+{% block head_title %}Create Project{% endblock %}
+
+{% block content %}
+    <h3>Create a project</h3>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit"></input>
+    </form>
+{% endblock %}

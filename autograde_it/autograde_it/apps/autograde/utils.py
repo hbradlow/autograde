@@ -8,11 +8,12 @@ def extract_from_zip(file):
     import zipfile
     from readmeparser import parse
     from django.conf import settings
+    print file
     z = zipfile.ZipFile(file)
     try:
-        z.extractall(settings.AUTOGRADE_PROJECT_UPLOAD_PATH)
-        print "HERE"
-        return parse(os.path.join(settings.AUTOGRADE_PROJECT_UPLOAD_PATH,"example_instructor_project"))
+        name = ".".join(file.name.split(".")[0:-1])
+        z.extractall(path=settings.AUTOGRADE_PROJECT_UPLOAD_PATH)
+        return parse(os.path.join(settings.AUTOGRADE_PROJECT_UPLOAD_PATH,name))
     except AttributeError:
         z.extractall("projects")
 

@@ -1,0 +1,40 @@
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.shortcuts import *
+from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response, get_object_or_404
+
+from django.contrib.auth.decorators import login_required
+
+from autograde.models import *
+from autograde.forms import *
+
+def upload_form(request):
+    form = ProjectCreateForm()
+    if request.method=="POST":
+        form = ProjectCreateForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            project = form.instance
+            return HttpResponseRedirect(project.get_absolute_url())
+    return render_to_response("upload_form.html",{"form":form},context_instance=RequestContext(request))
+
+def testcase_edit(request,pk):
+    tc = get_object_or_404(TestCase,pk=pk)
+    form = TestCaseForm(instance=tc)
+    if request.method=="POST":
+        form = TestCaseForm(request.POST,request.FILES,instance=tc)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("testcase_detail",args=(tc.pk,)))
+    return render_to_response("autograde/projectfile_edit.html",{"form":form},context_instance=RequestContext(request))
+
+def projectfile_edit(request,pk):
+    pf = get_object_or_404(ProjectFile,pk=pk)
+    form = ProjectFileForm(instance=pf)
+    if request.method=="POST":
+        form = ProjectFileForm(request.POST,request.FILES,instance=pf)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("projectfile_detail",args=(pf.pk,)))
+    return render_to_response("autograde/projectfile_edit.html",{"form":form},context_instance=RequestContext(request))
+

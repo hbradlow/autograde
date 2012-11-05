@@ -75,6 +75,12 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = 'AKIAJELY5ITX2PV3GRNQ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'autograde'
+AWS_S3_SECURE_URLS = True
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'z8+r^%z9w^$5q0(*m@mwinm%okic0mw%ag4u(1tzo#)4_iw5fk'
 
@@ -158,3 +164,5 @@ LOGGING = {
 
 #autograde
 AUTOGRADE_PROJECT_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'projects/')
+AUTOGRADE_ZIP_TMP = MEDIA_ROOT
+AUTOGRADE_PROJECT_META_MODEL = "autograde.ProjectMeta"
