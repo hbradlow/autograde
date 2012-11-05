@@ -26,6 +26,7 @@ class Project(models.Model):
             f.write(pf.file.read())
             z.write(file_name,pf.file.name)
             os.remove(file_name)
+        z.write("autograde_it/clientside/testproject.py","testproject.py")
         z.close()
         return name
     @permalink
