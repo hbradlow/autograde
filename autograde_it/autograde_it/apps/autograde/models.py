@@ -10,17 +10,34 @@ models.signals.post_save.connect(create_api_key, sender=User)
 class Project(models.Model):
     instructors = models.ManyToManyField(User)
     title = models.CharField(max_length=100)
+
     def get_meta(self):
-        return self.projectmeta
+        """
+            Get the meta data for this project.
+
+            This is stored in a model determined by AUTOGRADE_PROJECT_META_MODEL setting.
+        """
+        from django.conf import settings
+        app_label, model_name = getattr(settings,"AUTOGRADE_PROJECT_META_MODEL","autograde.ProjectMeta").split(".")
+        model = models.get_model(app_label, model_name)
+        if model is None:
+            raise ValueError("AUTOGRADE_PROJECT_META_MODEL invalid")
+        return model.objects.get(project=self)
+
     def __unicode__(self):
         return self.title
+
     def zipfile(self):
+        """
+            Return the path to a zipfile for this project.
+            Contains all of the student_viewable project files and the testing framework file.
+        """
         import os
         import uuid
         from django.conf import settings
         name = "/tmp/test.zip"
         z = ZipFile(name,"w")
-        for pf in self.projectfile_set.all():
+        for pf in self.projectfile_set.filter(is_student_viewable=True):
             file_name = os.path.join(settings.AUTOGRADE_ZIP_TMP,str(uuid.uuid4()))
             f = open(file_name,"w")
             f.write(pf.file.read())
@@ -30,6 +47,7 @@ class Project(models.Model):
         z.write("autograde_it/clientside/testproject.py","testproject.py")
         z.close()
         return name
+
     @permalink
     def get_absolute_url(self):
         return ("project_detail",[self.pk])
@@ -37,6 +55,7 @@ class Project(models.Model):
 class ProjectMeta(models.Model):
     """
         Meta data for a project object. This is supose to be configurable so users of this app can change how this data is used.
+        To use a different model for the meta data, set the AUTOGRADE_PROJECT_META_MODEL value in the settings file.
 
         For example:
             One might want to have a pdf instead of just text for the description.

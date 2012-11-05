@@ -165,3 +165,4 @@ LOGGING = {
 #autograde
 AUTOGRADE_PROJECT_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'projects/')
 AUTOGRADE_ZIP_TMP = MEDIA_ROOT
+AUTOGRADE_PROJECT_META_MODEL = "autograde.ProjectMeta"
