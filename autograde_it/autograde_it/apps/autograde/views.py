@@ -89,4 +89,4 @@ def projectfile_edit(request,pk,
 
 def get_project_zip(request,pk):
     project = get_object_or_404(Project,pk=pk)
-    return HttpResponse(open(project.zipfile(),"rb").read(),content_type='application/zip')
+    return HttpResponse(project.zipfile(),content_type='application/zip')
