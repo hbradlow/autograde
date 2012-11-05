@@ -19,15 +19,26 @@ def project_create(request,
             project = form.instance
             return HttpResponseRedirect(project.get_absolute_url())
     return render_to_response(template_name,{"form":form},context_instance=RequestContext(request))
+def projectmeta_edit(request,pk,
+        form_class=ProjectMetaForm,
+        template_name="autograde/projectmeta_edit.html"):
+    pm = get_object_or_404(ProjectMeta,pk=pk)
+    form = form_class(instance=pm)
+    if request.method=="POST":
+        form = form_class(request.POST,request.FILES,instance=pm)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("project_detail",args=(pm.project.pk,)))
+    return render_to_response(template_name,{"form":form},context_instance=RequestContext(request))
 
 def testcase_delete(request,pk):
     tc = get_object_or_404(TestCase,pk=pk)
     tc.delete()
     return HttpResponse("Deleted")
-def testcase_create(request,pk,
+def testcase_create(request,project_pk,
         form_class=TestCaseForm,
         template_name="autograde/testcase_edit.html"):
-    project = get_object_or_404(Project,pk=pk)
+    project = get_object_or_404(Project,pk=project_pk)
     form = form_class()
     if request.method=="POST":
         form = form_class(request.POST,request.FILES)
@@ -52,10 +63,10 @@ def projectfile_delete(request,pk):
     pf = get_object_or_404(ProjectFile,pk=pk)
     pf.delete()
     return HttpResponse("Deleted")
-def projectfile_create(request,pk,
+def projectfile_create(request,project_pk,
         form_class=ProjectFileForm,
         template_name="autograde/projectfile_edit.html"):
-    project = get_object_or_404(Project,pk=pk)
+    project = get_object_or_404(Project,pk=project_pk)
     form = form_class()
     if request.method=="POST":
         form = form_class(request.POST,request.FILES)

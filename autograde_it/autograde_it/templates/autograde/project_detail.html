@@ -27,4 +27,9 @@
     {% endfor %}
     <a href="{% url testcase_create project.pk %}">Add Test Case</a>
     <br />
+    <h4>Meta Data</h4>
+    {% with project.get_meta as object %}
+        {% include "autograde/projectmeta.html" %}
+    {% endwith %}
+    <a href="{% url projectmeta_edit project.get_meta.pk %}">Edit Meta Data</a>
 {% endblock %}

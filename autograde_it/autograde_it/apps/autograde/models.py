@@ -10,11 +10,28 @@ models.signals.post_save.connect(create_api_key, sender=User)
 class Project(models.Model):
     instructors = models.ManyToManyField(User)
     title = models.CharField(max_length=100)
+    def get_meta(self):
+        return self.projectmeta
     def __unicode__(self):
         return self.title
     @permalink
     def get_absolute_url(self):
         return ("project_detail",[self.pk])
+
+class ProjectMeta(models.Model):
+    """
+        Meta data for a project object. This is supose to be configurable so users of this app can change how this data is used.
+
+        For example:
+            One might want to have a pdf instead of just text for the description.
+            Or one might want to include grading options here.
+
+        This is intended to simply be an example.
+    """
+    project = models.OneToOneField(Project)
+    due_date = models.DateTimeField(null=True,help_text="Time in 24 hour format")
+    release_date = models.DateTimeField(null=True,help_text="Time in 24 hour format")
+    description = models.TextField(null=True)
 
 class ProjectFile(models.Model):
     project = models.ForeignKey(Project)

@@ -1,9 +1,18 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _, ugettext
+from django.forms.widgets import SplitDateTimeWidget,DateTimeInput
 
 from autograde.models import *
 from autograde.utils import *
 
+class ProjectMetaForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(ProjectMetaForm,self).__init__(*args,**kwargs)
+        self.fields['due_date'].widget = SplitDateTimeWidget()
+        self.fields['release_date'].widget = SplitDateTimeWidget()
+    class Meta:
+        model = ProjectMeta
+        exclude = ("project",)
 class ProjectCreateForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         if len(args)>=2:
@@ -12,16 +21,18 @@ class ProjectCreateForm(forms.ModelForm):
         super(ProjectCreateForm,self).__init__(*args,**kwargs)
     def save(self,*args,**kwargs):
         super(ProjectCreateForm,self).save(*args,**kwargs)
+        p = self.instance
+
+        ProjectMeta.objects.create(project = p)
 
         #save the files
-        p = self.instance
         for test in self.test_cases:
             TestCase.objects.create(project=p, file=test)
         for file in self.project_files:
             ProjectFile.objects.create(project=p, file=file)
     class Meta:
         model = Project
-        fields = ("title",)
+        exclude = ("instructors",)
 
 class TestCaseForm(forms.ModelForm):
     class Meta:
