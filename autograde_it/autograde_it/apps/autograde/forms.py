@@ -14,9 +14,18 @@ class ProjectMetaForm(forms.ModelForm):
         model = ProjectMeta
         exclude = ("project",)
 class ProjectCreateForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        if len(args)>=2:
+            self.project_files = args[1].getlist("project_files",[])
+        super(ProjectCreateForm,self).__init__(*args,**kwargs)
     def save(self,*args,**kwargs):
         super(ProjectCreateForm,self).save(*args,**kwargs)
         ProjectMeta.objects.create(project=self.instance)
+
+        #save the files
+        p = self.instance
+        for file in self.project_files:
+            ProjectFile.objects.create(project=p, file=file)
     class Meta:
         model = Project
         exclude = ("instructors",)
