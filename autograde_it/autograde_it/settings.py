@@ -125,12 +125,14 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 
     #external
+    'registration',
     'django_extensions',
     'south',
     'tastypie',
 
     #project
     'autograde',
+    'example_project',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -166,3 +168,7 @@ LOGGING = {
 AUTOGRADE_PROJECT_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'projects/')
 AUTOGRADE_ZIP_TMP = MEDIA_ROOT
 AUTOGRADE_PROJECT_META_MODEL = "autograde.ProjectMeta"
+
+#registration
+ACCOUNT_ACTIVATION_DAYS = 100
+LOGIN_REDIRECT_URL = "/"

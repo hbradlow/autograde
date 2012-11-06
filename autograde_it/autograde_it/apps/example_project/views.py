@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from autograde.models import *
 from autograde.forms import *
 
-from forms import UserFeedbackForm
+from example_project.forms import UserFeedbackForm
 
 def user_feedback(request):
     form = UserFeedbackForm()
