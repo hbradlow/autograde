@@ -49,7 +49,6 @@ class TestCase:
             self.timed_out = False
 
         def run(self):
-            #self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
             self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT)
             self.proc.wait()
 
@@ -61,7 +60,6 @@ class TestCase:
             if self.is_alive():
                 self.timed_out = True
                 self.proc.terminate()
-                #killpg(self.proc.pid, SIGTERM)
                 kill(self.proc.pid, SIGTERM)
                 self.join()
             self.elapsed_time = time() - start_time
