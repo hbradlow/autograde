@@ -183,7 +183,7 @@ class Tester:
         for test in self.cases:
             try: 
                 test.runTest()
-            except BaseException, e:
+            except Exception, e:
                 if debug: print 'Test threw an exception'
                 test.error = True
 
