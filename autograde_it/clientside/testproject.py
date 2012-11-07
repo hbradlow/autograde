@@ -155,7 +155,7 @@ class Tester:
             name, obj = urlretrieve(media_url, path.join(self.test_dir, case_name))
             ext = media_url.split('?')[0].split('.')[-1]
             self.cases.append(TestCase(case_name, case_id, self.test_dir, ext, self.getUserUri(), resource_uri))
-            print "Got test %d" % case_id
+            print "Got test %s" % case_id
         print "Done downloading tests\n"
 
     def getTests(self):
