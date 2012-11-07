@@ -46,7 +46,8 @@ class TestCase:
             self.timed_out = False
 
         def run(self):
-            self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
+            #self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
+            self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT)
             self.proc.wait()
 
         def Run(self):
