@@ -34,7 +34,7 @@ class TestCase:
 
         self.elapsed_time = 0.0
         self.ext = ext
-        self.exec_types = {'py': 'python', 'sh': 'sh', 'rb': 'ruby'}
+        self.exec_types = {'py': 'python', 'sh': 'sh'}
 
     class Cmd(Thread):
         """
@@ -183,7 +183,7 @@ class Tester:
         for test in self.cases:
             try: 
                 test.runTest()
-            except BaseException, e:
+            except Exception, e:
                 if debug: print 'Test threw an exception'
                 test.error = True
 
