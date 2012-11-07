@@ -3,7 +3,7 @@ from urllib import urlretrieve
 from urllib2 import Request, build_opener, urlopen, HTTPError
 from json import loads, dumps
 from os import mkdir, rmdir, path
-from os import killpg, kill, setsid, system
+from os import kill, system
 from subprocess import Popen, PIPE, STDOUT
 from getpass import getpass
 from shutil import rmtree
@@ -28,6 +28,9 @@ class TestCase:
         self.resource_uri = resource_uri
         self.timelimit = timelimit
         self.on_timeout_fail = on_timeout_fail
+       
+        # For use by the runTests function
+        self.error = False 
 
         self.elapsed_time = 0.0
         self.ext = ext
@@ -82,7 +85,8 @@ class TestCase:
     # Generate a test report in the format expected by the server
     # Meant to be used in Tester.putResults
     def asDict(self):
-        return {'results':self.result, 'user':self.user_uri, 'test_case':self.resource_uri, 'time': self.elapsed_time}
+        result_string = if self.error: 'Test threw an exception.' else: self.result
+        return {'results':result_string, 'user':self.user_uri, 'test_case':self.resource_uri, 'time': self.elapsed_time}
 
 class Tester:
     '''
@@ -174,7 +178,12 @@ class Tester:
     def runTests(self):
         if debug: print "Running the test cases..."
         for test in self.cases:
-            test.runTest()
+            try: 
+                test.runTest()
+            except Exception, e:
+                if debug: print 'Test threw an exception'
+                test.error = True
+
 
     def putResults(self, key):
         for test in self.cases:
