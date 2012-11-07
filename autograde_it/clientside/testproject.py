@@ -34,7 +34,7 @@ class TestCase:
 
         self.elapsed_time = 0.0
         self.ext = ext
-        self.exec_types = {'py': 'python', 'sh': 'sh'}
+        self.exec_types = {'py': 'python', 'sh': 'sh', 'rb': 'ruby'}
 
     class Cmd(Thread):
         """
