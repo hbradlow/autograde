@@ -2,8 +2,8 @@
 from urllib import urlretrieve
 from urllib2 import Request, build_opener, urlopen, HTTPError
 from json import loads, dumps
-from os import mkdir, rmdir
-from os import killpg, setsid, system
+from os import mkdir, rmdir, path
+from os import killpg, kill, setsid, system
 from subprocess import Popen, PIPE, STDOUT
 from getpass import getpass
 from shutil import rmtree
@@ -57,7 +57,8 @@ class TestCase:
             if self.is_alive():
                 self.timed_out = True
                 self.proc.terminate()
-                killpg(self.proc.pid, SIGTERM)
+                #killpg(self.proc.pid, SIGTERM)
+                kill(self.proc.pid, SIGTERM)
                 self.join()
             self.elapsed_time = time() - start_time
 
@@ -67,7 +68,7 @@ class TestCase:
             return self.proc.stdout.read()
 
     def runTest(self):
-        print "Running test " + str(self.case_id), self.test_dir+'/'+self.case_name
+        print "Running test " + str(self.case_id) 
         filename = self.test_dir+'/'+self.case_name
         arg = self.exec_types[self.ext] + ' ' + filename
         cmd = self.Cmd(arg)
@@ -143,10 +144,10 @@ class Tester:
             resource_uri = case['resource_uri']
             if debug: print media_url
             case_name = str(uuid4())
-            name, obj = urlretrieve(media_url, self.test_dir+'/'+case_name)
+            name, obj = urlretrieve(media_url, path.join(self.test_dir, case_name))
             ext = media_url.split('?')[0].split('.')[-1]
             self.cases.append(TestCase(case_name, case_id, self.test_dir, ext, self.getUserUri(), resource_uri))
-            print "Got %s" % case_name
+            print "Got test %d" % case_id
         print "Done downloading tests\n"
 
     def getTests(self):
