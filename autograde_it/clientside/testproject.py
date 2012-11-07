@@ -12,7 +12,7 @@ from threading import Thread
 from signal import SIGTERM
 from sys import platform
 
-if platform is 'win32' or platform is 'win64':
+if platform == 'win32' or platform == 'win64':
     from os import kill
 else:
     from os import killpg, setsid
@@ -54,7 +54,7 @@ class TestCase:
             self.timed_out = False
 
         def run(self):
-            if platform is 'win32' or platform is 'win64':
+            if platform == 'win32' or platform == 'win64':
                 self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT)
             else:
                 self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
@@ -68,7 +68,7 @@ class TestCase:
             if self.is_alive():
                 self.timed_out = True
                 self.proc.terminate()
-                if platform is 'win32' or platform is 'win64':
+                if platform == 'win32' or platform == 'win64':
                     kill(self.proc.pid, SIGTERM)
                 else:
                     killpg(self.proc.pid, SIGTERM)
