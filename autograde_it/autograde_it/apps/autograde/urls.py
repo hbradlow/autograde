@@ -5,6 +5,8 @@ from autograde.api import *
 from autograde.views import *
 from autograde.models import *
 
+from django.contrib.auth.decorators import login_required
+
 api = Api(api_name='data')
 api.register(ProjectResource())
 api.register(TestCaseResource())
@@ -13,7 +15,7 @@ api.register(UserResource())
 
 urlpatterns = patterns('autograde.views',
     (r'^api/', include(api.urls)),
-    url(r'^$', ListView.as_view(model=Project,template_name="autograde/index.html"), name='autograde_home'),
+    url(r'^$', login_required(ListView.as_view(model=Project,template_name="autograde/index.html")), name='autograde_home'),
 
     #project
     url(r'^project/(?P<pk>[\w\._-]+)$', DetailView.as_view(model=Project), name='project_detail'),

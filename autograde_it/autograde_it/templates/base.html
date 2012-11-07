@@ -39,21 +39,27 @@
             <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
             <script src="{% static "bootstrap/js/bootstrap-typeahead.js" %}"></script>
             <script src="{% static "js/csrf_fix.js" %}"></script>
+            <script type="text/javascript"> 
+                (function(){ 
+                var node = document.createElement("script"); 
+                node.setAttribute("type", "text/javascript"); 
+                node.setAttribute("src", "https://app.bugmuncher.com/js/bugMuncher.min.js"); 
+                document.getElementsByTagName("head")[0].appendChild(node); 
+                })(); 
+
+                var bugmuncher_options = {
+                language:'en',
+                position:'right',
+                show_intro:true,
+                show_preview:true,
+                label_text:'Report Bugs',
+                api_key:'7a71d1fa888df95dafa109bc921a619eaa50feec'
+                };
+            </script>
             {% block extra_script %}{% endblock %}
         {% endblock %}
     </head>
     <body class="{% block body_class %}{% endblock %}" id="{% block body_id %}{% endblock %}">
-        {% block facebook_js %}
-            <div id="fb-root"></div>
-            <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=483105178368620";
-            fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-        {% endblock %}
-
         {% block topbar_base %}
             <div class="navbar {% block navbar_class %}navbar-fixed-top{% endblock %}">
                 <div class="navbar-inner">
@@ -65,12 +71,18 @@
                                 <span class="icon-bar"></span>
                             </a>
                             {% block site_brand %}<a class="brand" href="{% url "autograde_home" %}">Autograde It</a>{% endblock %}
-                            <div class="nav-collapse">
+                            <div class="pull-right nav-collapse">
                                 {% block nav %}
                                     <ul class="nav">
+                                        {% if user.is_authenticated %}
+                                            <li><a href="{% url "auth_logout" %}">Logout</a></li>
+                                        {% else %}
+                                            <li><a href="{% url "auth_login" %}">Login</a></li>
+                                        {% endif %}
                                     </ul>
                                 {% endblock %}
                             </div>
+                            <a class="pull-right btn btn-success" href="{% url "feedback" %}">Feedback</a>
                         {% endblock %}
                     </div>
                 </div>

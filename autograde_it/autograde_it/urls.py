@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 
 from django.contrib import admin
 import autograde.urls
+import example_project.urls
 from django.conf import settings
 admin.autodiscover()
 from django.contrib.auth.models import User
@@ -18,4 +19,7 @@ urlpatterns = patterns('',
     url(r'^', include(autograde.urls)),
     url(r'^autograde/', include(autograde.urls)),
     url(r'^users/', ListView.as_view(model=User,template_name="user_list.html"),name="users"),
+
+    url(r'^p/',include(example_project.urls)),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 )

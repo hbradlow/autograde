@@ -35,8 +35,8 @@ class Project(models.Model):
         import os
         import uuid
         from django.conf import settings
-        name = "/tmp/test.zip"
-        z = ZipFile(name,"w")
+        zipfile_name = os.path.join(settings.AUTOGRADE_ZIP_TMP,str(uuid.uuid4()))
+        z = ZipFile(zipfile_name,"w")
         for pf in self.projectfile_set.filter(is_student_viewable=True):
             file_name = os.path.join(settings.AUTOGRADE_ZIP_TMP,str(uuid.uuid4()))
             f = open(file_name,"w")
@@ -46,7 +46,10 @@ class Project(models.Model):
             os.remove(file_name)
         z.write("autograde_it/clientside/testproject.py","testproject.py")
         z.close()
-        return name
+
+        data = open(zipfile_name,"rb").read()
+        os.remove(zipfile_name)
+        return data
 
     @permalink
     def get_absolute_url(self):
