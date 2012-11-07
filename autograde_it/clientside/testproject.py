@@ -2,8 +2,7 @@
 from urllib import urlretrieve
 from urllib2 import Request, build_opener, urlopen, HTTPError
 from json import loads, dumps
-from os import mkdir, rmdir, path
-from os import kill, system
+from os import mkdir, rmdir, path, system
 from subprocess import Popen, PIPE, STDOUT
 from getpass import getpass
 from shutil import rmtree
@@ -11,6 +10,12 @@ from uuid import uuid4
 from time import time
 from threading import Thread
 from signal import SIGTERM
+from sys import platform
+
+if platform is 'win32' or platform is 'win64':
+    from os import kill
+else:
+    from os import killpg, setsid
 
 # Options and settings
 debug = False
@@ -49,7 +54,10 @@ class TestCase:
             self.timed_out = False
 
         def run(self):
-            self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT)
+            if platform is 'win32' or platform is 'win64':
+                self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT)
+            else:
+                self.proc = Popen(self.cmd, shell=True, stdout=PIPE, stderr=STDOUT, preexec_fn=setsid)
             self.proc.wait()
 
         def Run(self):
@@ -60,7 +68,10 @@ class TestCase:
             if self.is_alive():
                 self.timed_out = True
                 self.proc.terminate()
-                kill(self.proc.pid, SIGTERM)
+                if platform is 'win32' or platform is 'win64':
+                    kill(self.proc.pid, SIGTERM)
+                else:
+                    killpg(self.proc.pid, SIGTERM)
                 self.join()
             self.elapsed_time = time() - start_time
 
@@ -181,7 +192,7 @@ class Tester:
         for test in self.cases:
             try: 
                 test.runTest()
-            except BaseException, e:
+            except Exception, e:
                 if debug: print 'Test threw an exception'
                 test.error = True
 
