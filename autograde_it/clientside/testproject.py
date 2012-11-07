@@ -85,7 +85,10 @@ class TestCase:
     # Generate a test report in the format expected by the server
     # Meant to be used in Tester.putResults
     def asDict(self):
-        result_string = if self.error: 'Test threw an exception.' else: self.result
+        if self.error: 
+            result_string = 'Test threw an exception.' 
+        else: 
+            result_string = self.result
         return {'results':result_string, 'user':self.user_uri, 'test_case':self.resource_uri, 'time': self.elapsed_time}
 
 class Tester:
